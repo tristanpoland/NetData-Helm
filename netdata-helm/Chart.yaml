@@ -1,0 +1,20 @@
+apiVersion: v2
+name: netdata
+description: Real-time performance monitoring, done right! NetData DaemonSet for Kubernetes clusters with automated node registration
+type: application
+version: 1.0.0
+appVersion: "edge"
+home: https://netdata.cloud
+sources:
+  - https://github.com/netdata/netdata
+maintainers:
+  - name: NetData Community
+keywords:
+  - monitoring
+  - metrics
+  - observability
+  - performance
+annotations:
+  catalog.cattle.io/certified: rancher
+  catalog.cattle.io/namespace: cattle-monitoring-system
+  catalog.cattle.io/release-name: netdata

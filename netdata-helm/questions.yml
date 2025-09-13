@@ -1,0 +1,83 @@
+categories:
+- Monitoring
+questions:
+- variable: parent.claiming.token
+  default: ""
+  description: "NetData Cloud claiming token for parent and child nodes"
+  type: password
+  required: true
+  label: "NetData Claiming Token"
+  group: "NetData Cloud Configuration"
+- variable: parent.claiming.rooms
+  default: ""
+  description: "NetData Cloud room ID where nodes will be registered"
+  type: string
+  required: true
+  label: "NetData Room ID"
+  group: "NetData Cloud Configuration"
+- variable: child.claiming.token
+  default: ""
+  description: "NetData Cloud claiming token for child nodes (usually same as parent)"
+  type: password
+  required: true
+  label: "Child Node Claiming Token"
+  group: "NetData Cloud Configuration"
+- variable: child.claiming.rooms
+  default: ""
+  description: "NetData Cloud room ID for child nodes (usually same as parent)"
+  type: string
+  required: true
+  label: "Child Node Room ID"
+  group: "NetData Cloud Configuration"
+- variable: image.tag
+  default: "edge"
+  description: "NetData Docker image tag"
+  type: enum
+  options:
+  - "edge"
+  - "latest"
+  - "stable"
+  required: true
+  label: "Image Tag"
+  group: "Container Settings"
+- variable: restarter.enabled
+  default: true
+  description: "Enable automatic restarter for NetData containers"
+  type: boolean
+  label: "Enable Restarter"
+  group: "Container Settings"
+- variable: parent.enabled
+  default: true
+  description: "Deploy NetData parent node (central dashboard)"
+  type: boolean
+  label: "Enable Parent Node"
+  group: "Deployment Configuration"
+- variable: child.enabled
+  default: true
+  description: "Deploy NetData child nodes on all cluster nodes"
+  type: boolean
+  label: "Enable Child Nodes"
+  group: "Deployment Configuration"
+- variable: parent.service.type
+  default: "LoadBalancer"
+  description: "Service type for NetData parent node"
+  type: enum
+  options:
+  - "ClusterIP"
+  - "NodePort"
+  - "LoadBalancer"
+  label: "Parent Service Type"
+  group: "Networking"
+- variable: persistence.enabled
+  default: true
+  description: "Enable persistent storage for NetData data"
+  type: boolean
+  label: "Enable Persistence"
+  group: "Storage"
+- variable: persistence.size
+  default: "10Gi"
+  description: "Size of persistent volume"
+  type: string
+  label: "Storage Size"
+  group: "Storage"
+  show_if: "persistence.enabled=true"
