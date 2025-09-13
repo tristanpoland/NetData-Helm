@@ -18,3 +18,7 @@ annotations:
   catalog.cattle.io/certified: rancher
   catalog.cattle.io/namespace: cattle-monitoring-system
   catalog.cattle.io/release-name: netdata
+dependencies:
+  - name: netdata
+    version: "3.7.*"
+    repository: "https://netdata.github.io/helmchart/"
