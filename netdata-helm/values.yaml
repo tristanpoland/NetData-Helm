@@ -1,44 +1,20 @@
 image:
-  repository: netdata/netdata
   tag: edge
-  pullPolicy: Always
 
 restarter:
   enabled: true
 
-# NetData Parent Node Configuration (runs on one node as central dashboard)
 parent:
-  enabled: true
-  replicaCount: 1
   claiming:
     enabled: true
     token: ""  # Will be set via Rancher GUI
     rooms: ""  # Will be set via Rancher GUI
-  service:
-    type: LoadBalancer
-    port: 19999
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
-      cpu: "500m"
 
-# NetData Child Nodes Configuration (DaemonSet on all nodes)
 child:
-  enabled: true
   claiming:
     enabled: true
     token: ""  # Will be set via Rancher GUI
     rooms: ""  # Will be set via Rancher GUI
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "300m"
 
 # Service Account
 serviceAccount:
