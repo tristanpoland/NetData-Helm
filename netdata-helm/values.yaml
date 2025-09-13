@@ -1,52 +1,18 @@
-image:
-  tag: edge
+netdata:
+  image:
+    tag: edge
 
-restarter:
-  enabled: true
-
-parent:
-  claiming:
+  restarter:
     enabled: true
-    token: ""  # Will be set via Rancher GUI
-    rooms: ""  # Will be set via Rancher GUI
 
-child:
-  claiming:
-    enabled: true
-    token: ""  # Will be set via Rancher GUI
-    rooms: ""  # Will be set via Rancher GUI
+  parent:
+    claiming:
+      enabled: true
+      token: ""  # Will be set via Rancher GUI
+      rooms: ""  # Will be set via Rancher GUI
 
-# Service Account
-serviceAccount:
-  create: true
-  name: netdata
-
-# Security Context
-securityContext:
-  capabilities:
-    add:
-      - SYS_PTRACE
-      - SYS_ADMIN
-  privileged: true
-
-# Node Selector and Tolerations
-nodeSelector: {}
-tolerations:
-  - operator: Exists
-affinity: {}
-
-# Persistence for NetData data
-persistence:
-  enabled: true
-  storageClass: ""
-  accessMode: ReadWriteOnce
-  size: 10Gi
-
-# Environment variables
-env:
-  - name: NETDATA_CLAIM_TOKEN
-    value: ""
-  - name: NETDATA_CLAIM_ROOMS
-    value: ""
-  - name: NETDATA_CLAIM_URL
-    value: "https://app.netdata.cloud"
+  child:
+    claiming:
+      enabled: true
+      token: ""  # Will be set via Rancher GUI
+      rooms: ""  # Will be set via Rancher GUI
