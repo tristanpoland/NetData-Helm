@@ -1,35 +1,35 @@
 categories:
 - Monitoring
 questions:
-- variable: netdata.parent.claiming.token
+- variable: parent.claiming.token
   default: ""
   description: "NetData Cloud claiming token for parent and child nodes"
   type: password
   required: true
   label: "NetData Claiming Token"
   group: "NetData Cloud Configuration"
-- variable: netdata.parent.claiming.rooms
+- variable: parent.claiming.rooms
   default: ""
   description: "NetData Cloud room ID where nodes will be registered"
   type: string
   required: true
   label: "NetData Room ID"
   group: "NetData Cloud Configuration"
-- variable: netdata.child.claiming.token
+- variable: child.claiming.token
   default: ""
   description: "NetData Cloud claiming token for child nodes (usually same as parent)"
   type: password
   required: true
   label: "Child Node Claiming Token"
   group: "NetData Cloud Configuration"
-- variable: netdata.child.claiming.rooms
+- variable: child.claiming.rooms
   default: ""
   description: "NetData Cloud room ID for child nodes (usually same as parent)"
   type: string
   required: true
   label: "Child Node Room ID"
   group: "NetData Cloud Configuration"
-- variable: netdata.image.tag
+- variable: image.tag
   default: "edge"
   description: "NetData Docker image tag"
   type: enum
@@ -40,7 +40,7 @@ questions:
   required: true
   label: "Image Tag"
   group: "Container Settings"
-- variable: netdata.restarter.enabled
+- variable: restarter.enabled
   default: true
   description: "Enable automatic restarter for NetData containers"
   type: boolean

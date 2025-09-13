@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "netdata.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "netdata.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "netdata.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "netdata.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "netdata.fullname" . }}
+      hostPID: true
+      hostIPC: true
+      hostNetwork: true
+      containers:
+      - name: netdata
+        image: netdata/netdata:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 19999
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /api/v1/info
+            port: 19999
+          timeoutSeconds: 1
+          periodSeconds: 30
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/v1/info
+            port: 19999
+          timeoutSeconds: 1
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        env:
+        - name: NETDATA_CLAIM_TOKEN
+          value: {{ .Values.child.claiming.token | quote }}
+        - name: NETDATA_CLAIM_ROOMS
+          value: {{ .Values.child.claiming.rooms | quote }}
+        - name: NETDATA_CLAIM_URL
+          value: "https://app.netdata.cloud"
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        securityContext:
+          capabilities:
+            add:
+              - SYS_PTRACE
+              - SYS_ADMIN
+              - SYS_RESOURCE
+        volumeMounts:
+        - name: proc
+          mountPath: /host/proc
+          readOnly: true
+        - name: sys
+          mountPath: /host/sys
+          readOnly: true
+        - name: varrun
+          mountPath: /var/run/docker.sock
+          readOnly: true
+        - name: varlog
+          mountPath: /host/var/log
+          readOnly: true
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      - operator: Exists
+        effect: NoExecute
+      volumes:
+      - name: proc
+        hostPath:
+          path: /proc
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: varrun
+        hostPath:
+          path: /var/run/docker.sock
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
